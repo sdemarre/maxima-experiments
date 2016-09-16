@@ -1,0 +1,7 @@
+load("quicklisp-setup.lisp");
+
+if not quicklisp_installed_p() then (
+  load_quicklisp_init(),
+  install_quicklisp());
+
+if quicklisp_installed_p() then load_installed_quicklisp();
