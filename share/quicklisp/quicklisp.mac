@@ -1,7 +1,13 @@
 load("quicklisp-setup.lisp");
 
-if not quicklisp_installed_p() then (
-  load_quicklisp_init(),
-  install_quicklisp());
+if platform_supports_quicklisp() then (
+  /* install quicklisp if needed */
+  if not quicklisp_installed_p() then (
+    load_quicklisp_init(),
+    install_quicklisp()),
 
-if quicklisp_installed_p() then load_installed_quicklisp();
+  /* quicklisp could be already loaded due to the lisps .rc file, or due to code in maxima-init.lisp. if so, don't load it again */
+  if not quicklisp_already_loaded() then (
+    /* installation of quicklisp during previous step could have failed, so check again before loading */
+    if quicklisp_installed_p() then (
+      load_installed_quicklisp()));
